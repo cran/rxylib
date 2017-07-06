@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 get_supportedFormats <- function() {
-    .Call('rxylib_get_supportedFormats', PACKAGE = 'rxylib')
+    .Call(rxylib_get_supportedFormats)
 }
 
 read_data <- function(path, format_name, options) {
-    .Call('rxylib_read_data', PACKAGE = 'rxylib', path, format_name, options)
+    .Call(rxylib_read_data, path, format_name, options)
 }
 

@@ -3,8 +3,14 @@ context("read_xyData")
 test_that("Test various examples", {
   testthat::skip_on_cran()
 
-  ##force break
+  ##force break (file does not exists)
   expect_error(read_xyData(file = "hi"))
+
+  ##force connection error
+  expect_error(read_xyData(file = "https://github.com/wojdyr/xylib/blob/master/samples/03yag02"))
+
+  ##force wrong file format read
+  expect_error(read_xyData(file = "https://raw.githubusercontent.com/R-Lum/rxylib/master/R/read_xyData.R"))
 
   ##load example data step by step from GitHub
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/blob/master/samples/03yag02.mca"), type = "list")
@@ -14,14 +20,12 @@ test_that("Test various examples", {
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/1d-2.spe"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/1d-3.spe"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/BT86.raw"), type = "list")
+  expect_type(read_xyData(file = "https://github.com/tzerk/ESR/raw/master/inst/extdata/mollusc.SPC"), type = "list")
   expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/BT86_.UXD"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/Cu3Au-1.raw"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/Cu3Au-2.raw"), type = "list")
-
-  ##check this, something is fishy here
-  #expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/D1A5.dat"), type = "list")
-  #expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/PSI_DMC.dat"), type = "list")
-
+  expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/D1A5.dat"), type = "list")
+  expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/PSI_DMC.dat"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/SMP00011.CNF"), type = "list")
   expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/Spectra.1"), type = "list")
   expect_type(read_xyData(file = "https://github.com/wojdyr/xylib/raw/master/samples/background_8.CNF"), type = "list")
@@ -41,4 +45,5 @@ test_that("Test various examples", {
   expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/with_commas.txt"), type = "list")
   expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/with_sigma.txt"), type = "list")
   expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/xy_text.txt"), type = "list")
+  expect_type(read_xyData(file = "https://raw.githubusercontent.com/wojdyr/xylib/master/samples/rfqm_uv.xsyg"), type = "list")
 })

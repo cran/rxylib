@@ -27,6 +27,7 @@
 
 #include "util.h"
 #include "bruker_raw.h"
+#include "bruker_spc.h"
 #include "rigaku_dat.h"
 #include "text.h"
 #include "csv.h"
@@ -46,6 +47,7 @@
 #include "chiplot.h"
 #include "spectra.h"
 #include "specsxy.h"
+#include "xsyg.h"
 
 #include <vector>
 #include <map>
@@ -68,6 +70,7 @@ const FormatInfo *formats[] = {
     &UxdDataSet::fmt_info,
     &RigakuDataSet::fmt_info,
     &BrukerRawDataSet::fmt_info,
+    &BrukerSpcDataSet::fmt_info,
     &VamasDataSet::fmt_info,
     &UdfDataSet::fmt_info,
     &WinspecSpeDataSet::fmt_info,
@@ -83,6 +86,7 @@ const FormatInfo *formats[] = {
     &SpectraDataSet::fmt_info,
     &SpecsxyDataSet::fmt_info,
     &CsvDataSet::fmt_info,
+    &XsygDataSet::fmt_info,
     // TextDataSet should be at the end because it can use any extension.
     &TextDataSet::fmt_info,
     NULL // it must be a NULL-terminated array
@@ -436,7 +440,7 @@ struct decompressing_istreambuf : public std::streambuf
         writeptr_ = bufdata_;
     }
 
-    // should be called only when the buffer is full, double the buffer size 
+    // should be called only when the buffer is full, double the buffer size
     void double_buf()
     {
         int old_size = (int) (writeptr_ - bufdata_);
