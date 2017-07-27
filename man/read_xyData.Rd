@@ -4,7 +4,7 @@
 \alias{read_xyData}
 \title{Import xy-Data for Supported Formats into R}
 \usage{
-read_xyData(file, options = "", verbose = TRUE)
+read_xyData(file, options = "", verbose = TRUE, metaData = TRUE)
 }
 \arguments{
 \item{file}{\link{character} (\strong{required}): path and file to be imported. The argument accepts an \code{URL}.}
@@ -12,6 +12,8 @@ read_xyData(file, options = "", verbose = TRUE)
 \item{options}{\link{character} (with default): set format options (see \link{rxylib-package})}
 
 \item{verbose}{\link{logical} (\emph{with default}): enables/disables verbose mode}
+
+\item{metaData}{\link{logical} (\emph{with default}): enables/disbales the export of metadata}
 }
 \value{
 The functions returns a \link{list} of matrices.
@@ -22,7 +24,7 @@ into R. In most cases, only the file path is needed with further arguments to im
 The function automatically recognises allowed formats. See \link{rxylib-package} for supported formats.
 }
 \section{Function version}{
- 0.1.1
+ 0.3.0
 }
 
 \examples{
@@ -30,9 +32,10 @@ The function automatically recognises allowed formats. See \link{rxylib-package}
 ##load example dataset
 file <- system.file("extdata/ExampleSpectrum.CNF", package = "rxylib")
 results <- read_xyData(file)
+results
 
-##plot spectrum
-plot(results[[1]],
+##plot xy-spectrum
+plot(results,
  type = "l",
  log = "y",
  xlab = "Energy [keV]",
@@ -41,9 +44,21 @@ plot(results[[1]],
 
 mtext(side = 3, "Canberra Inspector 1000, 3 x 3 NaI probe")
 
+##plot contour for TL-spectrum
+##imported from an XSYG-file
+spectrum <- read_xyData(system.file("extdata/TLSpectrum.xsyg", package = "rxylib"))
+contour(
+ x = spectrum$dataset[[1]]$data_block[,1],
+ y = 1:ncol(spectrum$dataset[[1]]$data_block[,-1]),
+ z = spectrum$dataset[[1]]$data_block[,-1],
+ xlab = "Wavelength [nm]",
+ ylab = "#Channel",
+ main = "TL Spectrum")
+
 
 }
 \author{
-Sebastian Kreutzer, IRAMAT-CRP2A, Universite Bordeaux Montaigne (France)
+Sebastian Kreutzer, IRAMAT-CRP2A, Universite Bordeaux Montaigne (France), Johannes Friedrich,
+University of Bayreuth (Germany)
 }
 \keyword{IO}

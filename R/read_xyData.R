@@ -10,9 +10,12 @@
 #'
 #' @param verbose [logical] (*with default*): enables/disables verbose mode
 #'
-#' @section Function version: 0.1.1
+#' @param metaData [logical] (*with default*): enables/disbales the export of metadata
 #'
-#' @author Sebastian Kreutzer, IRAMAT-CRP2A, Universite Bordeaux Montaigne (France)
+#' @section Function version: 0.3.0
+#'
+#' @author Sebastian Kreutzer, IRAMAT-CRP2A, Universite Bordeaux Montaigne (France), Johannes Friedrich,
+#' University of Bayreuth (Germany)
 #'
 #' @return The functions returns a [list] of matrices.
 #'
@@ -23,9 +26,10 @@
 #' ##load example dataset
 #' file <- system.file("extdata/ExampleSpectrum.CNF", package = "rxylib")
 #' results <- read_xyData(file)
+#' results
 #'
-#' ##plot spectrum
-#' plot(results[[1]],
+#' ##plot xy-spectrum
+#' plot(results,
 #'  type = "l",
 #'  log = "y",
 #'  xlab = "Energy [keV]",
@@ -34,13 +38,25 @@
 #'
 #' mtext(side = 3, "Canberra Inspector 1000, 3 x 3 NaI probe")
 #'
+#' ##plot contour for TL-spectrum
+#' ##imported from an XSYG-file
+#' spectrum <- read_xyData(system.file("extdata/TLSpectrum.xsyg", package = "rxylib"))
+#' contour(
+#'  x = spectrum$dataset[[1]]$data_block[,1],
+#'  y = 1:ncol(spectrum$dataset[[1]]$data_block[,-1]),
+#'  z = spectrum$dataset[[1]]$data_block[,-1],
+#'  xlab = "Wavelength [nm]",
+#'  ylab = "#Channel",
+#'  main = "TL Spectrum")
+#'
 #'
 #' @md
 #' @export
 read_xyData <- function(
   file,
   options = "",
-  verbose = TRUE
+  verbose = TRUE,
+  metaData = TRUE
 ){
 
   # Integrity tests -----------------------------------------------------------------------------
@@ -52,27 +68,28 @@ read_xyData <- function(
       ##check whether the file as an URL
       if(grepl(pattern = "http", x = file, fixed = TRUE)){
         if(verbose){
-          cat("[read_xyData()] URL detected, checking connection ... ")
+          cat("[read_xyData()] URL detected, try download ... ")
         }
 
-        ##check URL
-        if(!httr::http_error(file)){
-          if(verbose) cat("OK")
+        ##set file link
+        file_link <- paste0(tempfile("read_xyData"), ".", rev(strsplit(file, split = ".", fixed = TRUE)[[1]])[1])
 
-          ##dowload file
-          file_link <- paste0(tempfile("read_xyData"), ".", rev(strsplit(file, split = ".", fixed = TRUE)[[1]])[1])
-          download.file(file, destfile = file_link, quiet = ifelse(verbose, FALSE, TRUE), mode = "wb")
-          file <- file_link
+        ##try download
+        try <- try(download.file(file, destfile = file_link, quiet = ifelse(verbose, FALSE, TRUE), mode = "wb"), silent = TRUE)
+        file <- file_link
 
-        }else{
-          cat("FAILED")
+        ##check and stop if necessary
+        if(inherits(try, "try-error")){
           con <- NULL
-          stop("[read_xyData()] File could not be downloaded!", call. = FALSE)
+          try(stop("[read_xyData()] File could not be downloaded, NULL returned!", call. = FALSE))
+          return(NULL)
 
         }
+
 
       }else{
-        stop("[read_xyData()] File does not exists!", call. = FALSE)
+        try(stop("[read_xyData()] File does not exist, NULL returned!", call. = FALSE))
+        return(NULL)
 
       }
 
@@ -80,7 +97,7 @@ read_xyData <- function(
 
   # Set file extension  -------------------------------------------------------------------------
 
-    ##provide full path (the underlying C++ code does not like weired paths
+    ##provide full path (the underlying C++ code does not like weired paths)
     file <- paste0(dirname(file),"/",basename(file))
 
     ##extract file extension
@@ -93,8 +110,15 @@ read_xyData <- function(
     ##construct data.frame of supported file formats
     df_supported <- as.data.frame(get_supportedFormats(), stringsAsFactors = FALSE)
 
+    supported_ext <- unlist(lapply(1:length(df_supported$exts), function(x){
+
+      strsplit(df_supported$exts[x], "\\s+")
+
+
+    }))
+
     ##check whether the extension is in the list + txt
-    if(any(grepl(x = c(df_supported$exts,"txt"), pattern = ext, fixed = TRUE))){
+    if(ext %in% c(supported_ext,"txt")){
       format_name <- df_supported[grep(x = df_supported$exts, pattern = ext, fixed = TRUE), "name"]
 
       ##check for format length and allow auto detect by the library
@@ -115,12 +139,60 @@ read_xyData <- function(
       }
 
     }else{
-      stop(paste0("[read_xyData()] File extension '*.", ext, "' is not supported!"), call. = FALSE)
+      try(stop(paste0("[read_xyData()] File extension '*.", ext, "' is not supported! Return NULL!"), call. = FALSE))
+      return(NULL)
 
     }
 
+    # READ Data Import ----------------------------------------------------------------------------
+    data <- try(read_data(path = file, format_name = format_name, options = options, metaData = metaData), silent = TRUE)
 
-  # Import data ---------------------------------------------------------------------------------
-  return(read_data(path = file, format_name = format_name, options = options))
+    if(inherits(data, "try-error")){
+      try(stop("[read_xyData()] Data import failed. Return NULL!", call. = FALSE))
+      return(NULL)
+
+    }
+
+    # READ Metadata -------------------------------------------------------------------------------
+    if(metaData){
+      dataSet_metaData <- try(get_meta_DataSet(path = file, format_name = format_name, options = options), silent = TRUE)
+
+      if(inherits(dataSet_metaData, "try-error")){
+        try(stop("[read_xyData()] Metadata extraction failed! Set to NULL!", call. = FALSE))
+        dataSet_metaData <- NULL
+        metaData <- FALSE
+
+      }
+
+    } else {
+      dataSet_metaData <- NULL
+
+    }
+
+    # READ Block names ----------------------------------------------------------------------------
+    #extract blockNames
+    block_names <- try(get_block_names(path = file, format_name = format_name, options = options), silent = TRUE)
+
+      #if it fails ... just return NA (silently it is not important)
+      if(!inherits(block_names, "try-error")){
+        ##set block names (each list element)
+        names(data) <- block_names
+
+      }
+
+
+  # return data ---------------------------------------------------------------------------------
+  output <- list(
+    dataset = data,
+    metadata = dataSet_metaData)
+
+  # set format name attribute
+  attr(output, "format_name") <- df_supported[grep(x = df_supported$exts, pattern = ext, fixed = TRUE), "desc"]
+
+  ##set class
+  class(output) <- "rxylib"
+
+  ##return
+  return(output)
 
 }
