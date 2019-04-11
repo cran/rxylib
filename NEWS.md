@@ -1,17 +1,21 @@
-rxylib 0.2.2 (Release date: 2019-01-17)
-==============
+## rxylib 0.2.3 (Release date: 2019-04-11)
+
+* Set compiler flag to avoid `C++ 1998 does not support 'long long'` error on R-devel for Windows
+
+## rxylib 0.2.2 (Release date: 2019-04-11)
+
 * Update to newest 'xylib' version
 * Modify example in convert_xy2TKA() to avoid CRAN problems
 * Add README.md
+* Switch to NEWS.md
 
-rxylib 0.2.1 (Release date: 2017-12-20)
-==============
+## rxylib 0.2.1 (Release date: 2017-12-20)
+
 
 * Add function convert_xy2TKA()
 * Reduction of the library size by stripping debug entries
 
-rxylib 0.2.0 (Release date: 2017-07-28)
-==============
+## rxylib 0.2.0 (Release date: 2017-07-28)
 
 * Add full support for file format metadata
 * Add full support for column names (R like set to V1 and V2 if not provided otherwise)
@@ -22,8 +26,7 @@ rxylib 0.2.0 (Release date: 2017-07-28)
 * Unfortunately the table with the supported file format got missing during the last update
 round ... again added
 
-rxylib 0.1.1 (Release date: 2017-07-05)
-==============
+## rxylib 0.1.1 (Release date: 2017-07-05)
 
 * Correct for CRAN error on Solaris platform
 * Remove import of package 'stringr'
@@ -31,7 +34,6 @@ rxylib 0.1.1 (Release date: 2017-07-05)
 * Fix minor issue for case the data format is not obvious
 * Update to newest 'xylib' library version
 
-rxylib 0.1.0 (Release date: 2017-06-30)
-==============
+## rxylib 0.1.0 (Release date: 2017-06-30)
 
 * Initial version

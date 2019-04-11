@@ -1,8 +1,9 @@
 # MAKEFILE R package 'rxylib'
 # makefile in accordance with: https://github.com/AleMorales/RcppSundials.R/blob/master/src/Makevars
 
-PKG_CXXFLAGS= -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
-PKG_CFLAGS= -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
+PKG_CXXFLAGS = -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
+PKG_CFLAGS = -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
+CXX_STD = CXX11
 
 RXYLIBSOBJECTS=\
   	./xylib/bruker_raw.o \
@@ -38,10 +39,18 @@ PKGOBJECTS= RcppExports.o
 
 OBJECTS= $(WRAPOBJECTS) $(PKGOBJECTS) $(RXYLIBSOBJECTS)
 
+## -------------------
+## OUTDATED
+## -------------------
 ##reduce shared lib size, if possible, information taken from
 ##http://dirk.eddelbuettel.com/blog/2017/08/14/#009_compact_shared_libraries
+##removed 2019-04-11 in response to an email by Brian Ripley
 ##slightly modified ...
-strippedLib: $(SHLIB)
-		if test -e "/usr/bin/strip"; then /usr/bin/strip -S $(SHLIB); fi
+## strippedLib: $(SHLIB)
+##		if test -e "/usr/bin/strip"; then /usr/bin/strip -S $(SHLIB); fi
 
-.phony: strippedLib
+## .phony: strippedLib
+##
+## The stripping, however, is possible for R > 3.6 according to what
+## we can find in this blog:
+## http://dirk.eddelbuettel.com/blog/2019/03/27#021_stripping_take_three
