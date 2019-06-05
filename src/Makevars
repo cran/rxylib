@@ -1,10 +1,23 @@
-# MAKEFILE R package 'rxylib'
-# makefile in accordance with: https://github.com/AleMorales/RcppSundials.R/blob/master/src/Makevars
+# -------------------------------------------------------------------------------------------------#
+# MAKEVARS for R package 'rxylib'
+# Sebastian Kreutzer, last updated: 2019-04-26
+# -------------------------------------------------------------------------------------------------#
+#
+#
+# Information taken from: https://github.com/AleMorales/RcppSundials.R/blob/master/src/Makevars
+#
+# Further reading:
+#
+# https://stackoverflow.com/questions/43597632/understanding-the-contents-of-the-makevars-file-in-r-macros-variables-r-ma
+#
+# Note: the option --DDISABLE_STDERR_WARNINGS is a customized option for the xylib to ensure
+# that things CRAN does not like do get part of the compiled code, e.g, line 388 in util.cpp.
 
+## set flags
 PKG_CXXFLAGS = -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
-PKG_CFLAGS = -I../inst/include/ -I../inst/include/xylib/ -DDISABLE_STDERR_WARNINGS
 CXX_STD = CXX11
 
+##include files manually
 RXYLIBSOBJECTS=\
   	./xylib/bruker_raw.o \
   	./xylib/bruker_spc.o \
