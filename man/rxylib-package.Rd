@@ -20,7 +20,7 @@ License: GPL-3 | LGPL-2.1 (for the C++ library 'xylib')
 \strong{Funding}
 
 Between 2017-2019, the work of Sebastian Kreutzer as maintainer of the package was supported
-by LabEx LaScArBxSK (ANR - n. ANR-10-LABX-52).
+by LabEx LaScArBx (ANR - n. ANR-10-LABX-52).
 
 Supported data formats:
 \cr library version: 1.6.0\cr\cr
@@ -29,7 +29,7 @@ Supported data formats:
 [2,] \tab uxd \tab Bruker Diffrac-AT UXD \tab uxd \tab  \tab ascii \tab multiple\cr
 [3,] \tab rigaku_dat \tab Rigaku DAT \tab dat \tab  \tab ascii \tab multiple\cr
 [4,] \tab bruker_raw \tab Siemens/Bruker RAW \tab raw \tab  \tab binary \tab multiple\cr
-[5,] \tab bruker_spc \tab Bruker ESP300-E SPC \tab spc par \tab  \tab binary \tab single\cr
+[5,] \tab bruker_spc \tab Bruker ESP300-E SPC \tab spc \tab  \tab binary \tab single\cr
 [6,] \tab vamas \tab VAMAS ISO-14976 \tab vms \tab  \tab ascii \tab multiple\cr
 [7,] \tab philips_udf \tab Philips UDF \tab udf \tab  \tab ascii \tab single\cr
 [8,] \tab spe \tab PI WinSpec SPE \tab spe \tab  \tab binary \tab multiple\cr
@@ -49,6 +49,6 @@ Supported data formats:
  \tab \tab }
 }
 \author{
-Sebastian Kreutzer, IRAMAT-CRP2A, Université Bordeaux Montaigne (France), Johannes Friedrich (University of Bayreuth, Germany), RLum Team (family support), Marcin Wojdyr (maintainer and author of the C++ library \code{xylib}), Peng Zhang (author of the C++ library \code{xylib})
+Sebastian Kreutzer, Geography & Earth Sciences, Aberystwyth University (United Kingdom), Johannes Friedrich (University of Bayreuth, Germany), RLum Team (family support), Marcin Wojdyr (maintainer and author of the C++ library \code{xylib}), Peng Zhang (author of the C++ library \code{xylib})
 }
 \keyword{package}
