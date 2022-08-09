@@ -6,19 +6,16 @@
 
 #include <ctime>
 #include <cstring>
-#include <boost/cstdint.hpp>
+#include <memory>  // for unique_ptr
+#include <cstdint>
 
 #include "util.h"
 
 using namespace std;
 using namespace xylib::util;
-using boost::uint16_t;
-using boost::uint32_t;
-using boost::uint64_t;
 
 
 namespace xylib {
-
 
 const FormatInfo CanberraCnfDataSet::fmt_info(
     "canberra_cnf",
@@ -111,7 +108,7 @@ string convert_date(const char* p)
     le_to_host(&d, sizeof(d));
     time_t t = d / 10000000 - 3506716800u; // time since the Epoch
     char s[64];
-    int r = strftime(s, sizeof(s), "%a, %Y-%m-%d %H:%M:%S", gmtime(&t));
+    size_t r = strftime(s, sizeof(s), "%a, %Y-%m-%d %H:%M:%S", gmtime(&t));
     if (r == 0)
         throw FormatError("reading date failed.");
     return string(s);
@@ -196,7 +193,7 @@ void CanberraCnfDataSet::load_data(std::istream &f, const char*)
     if (enc_offset == 0)
         enc_offset = acq_offset;
 
-    AutoPtrBlock blk(new Block);
+    std::unique_ptr<Block> blk(new Block);
 
     // sample data - split name into name and description
     // (this was not in code from JF, it's my guess - MW)

@@ -31,7 +31,7 @@ Canberra Genie 2000.
 }
 }
 \section{Function version}{
- 0.1.0
+ 0.1.1
 }
 
 \examples{
@@ -56,11 +56,11 @@ convert_xy2TKA(
 
 }
 \author{
-Sebastian Kreutzer, IRAMAT-CRP2A, Université Bordeaux Montaigne (France)
+Sebastian Kreutzer, Institute of Geography, Universität Heidelberg, Germany
 } 
 
 \section{How to cite}{
-Kreutzer, S., 2022. convert_xy2TKA(): Convert xy-data to TKA. Function version 0.1.0. In: Kreutzer, S., Friedrich, J., 2022. rxylib: Import XY-Data into R . R package version 0.2.7. https://github.com/R-Lum/rxylib
+Kreutzer, S., 2022. convert_xy2TKA(): Convert xy-data to TKA. Function version 0.1.1. In: Kreutzer, S., Friedrich, J., 2022. rxylib: Import XY-Data into R . R package version 0.2.8. https://github.com/R-Lum/rxylib
 }
 
 \keyword{IO}
