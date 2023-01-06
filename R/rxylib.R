@@ -27,7 +27,7 @@
 #' @name rxylib-package
 #' @aliases rxylib-package rxylib
 #' @docType package
-#' @author Sebastian Kreutzer, Institute of Geography, Heidelberg University (Germany), Johannes Friedrich (University of Bayreuth, Germany), RLum Team (family support), Marcin Wojdyr (maintainer and author of the C++ library `xylib`), Peng Zhang (author of the C++ library `xylib`)
+#' @author Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl-University of Heidelberg (Germany), Johannes Friedrich (University of Bayreuth, Germany), RLum Team (family support), Marcin Wojdyr (maintainer and author of the C++ library `xylib`), Peng Zhang (author of the C++ library `xylib`)
 #'
 #' @md
 #' @keywords package

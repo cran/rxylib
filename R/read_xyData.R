@@ -14,7 +14,7 @@
 #'
 #' @section Function version: 0.3.0
 #'
-#' @author Sebastian Kreutzer, Institute of Geography, Universität Heidelberg (Germany), Johannes Friedrich,
+#' @author Sebastian Kreutzer, Institute of Geography, Ruprecht-Karl-University of Heidelberg (Germany), Johannes Friedrich,
 #' University of Bayreuth (Germany)
 #'
 #' @return The functions returns a [list] of matrices.
