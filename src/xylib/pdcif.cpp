@@ -2,6 +2,7 @@
 // Licence: Lesser GNU Public License 2.1 (LGPL)
 
 #define BUILDING_XYLIB
+
 #include "pdcif.h"
 
 #include <map>

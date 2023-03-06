@@ -1,10 +1,11 @@
-#'@title Import xy-Data for Supported Formats into R
+#' @title Import xy-Data for Supported Formats into R
 #'
-#'@description The function provides access to the underlying `xylib` to import data for supported file formats
+#' @description The function provides access to the underlying `xylib` to import data for supported file formats
 #'into R. In most cases, only the file path is needed with further arguments to import the data.
 #'The function automatically recognises allowed formats. See [rxylib-package] for supported formats.
 #'
 #' @param file [character] (**required**): path and file to be imported. The argument accepts an `URL`.
+#' Can be [character] vector or a [list] of `characters`.
 #'
 #' @param options [character] (with default): set format options (see [rxylib-package])
 #'
@@ -57,11 +58,15 @@ read_xyData <- function(
   metaData = TRUE
 ){
 
+  # Self-call ---------------------------------------------------------------
+  if(inherits(file, "list") || length(file) > 1)
+    return(lapply(unlist(file), read_xyData, options = options, verbose = verbose, metaData = metaData))
+
   # Integrity tests -----------------------------------------------------------------------------
   # (it is safer to run them here, instead of the compiled code)
 
     ##check whether file exists
-    if(!file.exists(file)){
+    if(!file.exists(file[1])){
       ##check whether the file as an URL
       if(grepl(pattern = "http", x = file, fixed = TRUE)){
         if(verbose) cat("[read_xyData()] URL detected, try download ... ")
@@ -70,19 +75,21 @@ read_xyData <- function(
         file_link <- paste0(tempfile("read_xyData"), ".", rev(strsplit(file, split = ".", fixed = TRUE)[[1]])[1])
 
         ##try download
-        try <- try(download.file(file, destfile = file_link, quiet = ifelse(verbose, FALSE, TRUE), mode = "wb"), silent = TRUE)
+        try <- try({
+          suppressWarnings(download.file(file, destfile = file_link, quiet = ifelse(verbose, FALSE, TRUE), mode = "wb"))
+          }, silent = TRUE)
         file <- file_link
 
         ##check and stop if necessary
         if(inherits(try, "try-error")){
           con <- NULL
-          try(stop("[read_xyData()] File could not be downloaded, NULL returned!", call. = FALSE))
+          try(stop(paste0("[read_xyData()] ", file[1], " could not be downloaded, NULL returned!"), call. = FALSE))
           return(NULL)
 
         }
 
       }else{
-        try(stop("[read_xyData()] File does not exist, NULL returned!", call. = FALSE))
+        try(stop(paste0("[read_xyData()] ", file[1], " does not exist, NULL returned!"), call. = FALSE))
         return(NULL)
 
       }
@@ -115,16 +122,16 @@ read_xyData <- function(
       ##check for format length and allow auto detect by the library
       if (ext == "txt" || length(format_name) > 1) {
         format_name <- ""
-        text <- "\n[read_xyData()] >> Non-obvious format, run auto detection ...\n"
+        text <- "\n[read_xyData()] Non-obvious format, run auto detection ...\n"
 
       }else{
-        text <- paste0("\n[read_xyData()] >> File of type ",
+        text <- paste0("[read_xyData()] File of type ",
                   df_supported[grep(x = df_supported$exts, pattern = ext, fixed = TRUE), "desc"],
-                  " detected\n")
+                  " detected ...")
 
       }
 
-      if(verbose) cat(text)
+      if(verbose) writeLines(text)
 
     }else{
       try(stop(paste0("[read_xyData()] File extension '*.", ext, "' is not supported! Return NULL!"), call. = FALSE))
