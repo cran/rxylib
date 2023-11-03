@@ -140,7 +140,13 @@ read_xyData <- function(
     }
 
     # READ Data Import ----------------------------------------------------------------------------
-    data <- try(read_data(path = file, format_name = format_name, options = options, metaData = metaData), silent = TRUE)
+    data <- try(
+      read_data(
+        path = file,
+        format_name = format_name,
+        options = options,
+        metaData = metaData),
+      silent = FALSE)
 
     if(inherits(data, "try-error")){
       try(stop("[read_xyData()] Data import failed. Return NULL!", call. = FALSE))
