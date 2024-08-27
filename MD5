@@ -1,7 +1,7 @@
-f646b138690334ff03d2a19bca29a940 *DESCRIPTION
+c131f2ba828553d99a01e3a8e40ca472 *DESCRIPTION
 8025180c3bf3d5315b5b2db686915a33 *NAMESPACE
 942f7b43934e142a74b3a22e5c862e39 *NEWS
-2dbfb10e6cba65aabf784b6944f6ab87 *NEWS.md
+909f10f534bb190c982901397b71fb62 *NEWS.md
 d467d83b8d40c1fc464424659c60b7ee *R/RcppExports.R
 4e75635c47213658cc6938f281b4f71f *R/convert_xy2TKA.R
 b37f8f7ba95048b31fbaf9011c8a3659 *R/methods_rxylib.R
@@ -37,12 +37,12 @@ d32756743cddcc90f7e5f00061c22ee0 *inst/include/xylib/xfit_xdd.h
 496f93e83a0ec80ff4f7e4e958c9f512 *inst/include/xylib/xrdml.h
 a67a3ccc9f6c389424097f0638539aaf *inst/include/xylib/xsyg.h
 750c08f9f2eb7fd1c074242919ff0d29 *inst/include/xylib/xylib.h
-cde236ea3f4a3ae5a13e26aa2620ccd5 *man/convert_xy2TKA.Rd
+3a03b22fcfa200c9490eecbd8b4a7c5f *man/convert_xy2TKA.Rd
 accb204572369740d8ee613e667363cf *man/figures/rxylib.svg
 d092195589a763cb106a97539cc70e65 *man/methods_rxylib.Rd
-cc6f532428812d12b75e60f110b80d18 *man/read_xyData.Rd
-2338a84b61bee90403617bbdc40751c9 *man/rxylib-package.Rd
-aa2bf6b186de5a876096d5df581062e6 *src/Makevars
+665dd0442f8f3fb888f5da3224a49c10 *man/read_xyData.Rd
+122d1d589ad8767c2657e59bcb3ed41d *man/rxylib-package.Rd
+356cdc64cbe7836b830191f891a79826 *src/Makevars
 db0e6ed767f76192c5742f067de341c2 *src/RcppExports.cpp
 f2875447033f164190fed4329293446c *src/get_block_names.cpp
 43ebdf262ec081c7b9ae6a5410822dfa *src/get_meta_DataSet.cpp
